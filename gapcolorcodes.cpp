@@ -14,29 +14,30 @@ int main()
  
  cout << "Enter filename: ";
  ifstream colorfile;
- char* name;
+ string name;
  string line;
  int gappos;
  cin >> name;
- colorfile.open(name,ios::in);
+ colorfile.open(name.c_str(),ios::in);
  if( colorfile.is_open() ){
-  ofstream newfile("new_code");
+  name.insert(0,"new_");
+  ofstream newfile(name.c_str());
   if( newfile.is_open() ){
-   newfile << "\begin{Verbatim}[commandchars=!@\%,frame=single]" << endl;
+   newfile << "\\begin{Verbatim}[commandchars=!@\\%,frame=single]" << endl;
    while( colorfile.good() ){
     getline(colorfile,line);
     gappos=line.find("gap>");
     if(gappos!=0){
-     newfile << line<<endl;
+     newfile << line <<endl;
      continue;
     }
     line.insert(3,"% !color@red%@");
     line.insert(0,"!color@blue%@");
-    //line += "%";
+    line += "%";
     newfile << line << endl;
    }
   }
-  newfile << "\end{Verbatim}" << endl;
+  newfile << "\\end{Verbatim}" << endl;
   newfile.close();
  }
  return 0;
