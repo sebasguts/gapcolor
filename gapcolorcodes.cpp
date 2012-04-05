@@ -1,3 +1,19 @@
+//     gapcolorcodes - a skript for providing nice gap examples
+//     Copyright (C) 2012  Sebastian Gutsche
+// 
+//     This program is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     This program is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include<stdio.h>
 #include <iostream>
 #include <fstream>
@@ -37,8 +53,9 @@ int main(int argc, char* argv[] )
              ofstream newfile(name.c_str());
              ofstream newfile_main(name2.c_str());
              if( newfile.is_open() && newfile_main.is_open() ){
-                newfile << "\\documentclass[12pt,a4paper]{amsart}" << endl
+                newfile << "\\documentclass[12pt]{amsart}" << endl
                         << "\\usepackage{graphicx}" << endl
+                        << "\\usepackage{a4wide}" << endl
                         << "\\usepackage{amssymb}" << endl
                         << "\\usepackage{xcolor}" << endl
                         << "\\usepackage{fancyvrb}" << endl << endl
@@ -65,19 +82,17 @@ int main(int argc, char* argv[] )
                         continue;
                     }
                     // Remove flags
-                    if(line.find("----------------------------------------------------------------") == 0 ){
-                        getline(colorfile,line);
-                        while( line.find( "----------------------------------------------------------------" ) !=0 ){
+                    if(line.find("------") == 0 ){ // THIS WILL CAUSE A BUG!!!
+                        do{
                             getline(colorfile,line);
-                        }
+                        }while( line.find( "------" ) !=0 );
                         continue;
                     }
                     // Remove this annoying singular banner with the ==== characters
-                    if(line.find("================================================================") == 0 ){
-                        getline(colorfile,line);
-                        while( line.find( "================================================================" ) !=0 ){
+                    if(line.find("=====") == 0 ){
+                        do{
                             getline(colorfile,line);
-                        }
+                        }while( line.find( "=====" ) !=0 );
                         continue;
                     }
                     if(line.find("## gapcolor ##")==0 || line.find("%gapcolor%")==0){
@@ -96,20 +111,24 @@ int main(int argc, char* argv[] )
                     if(gappos!=0){
                         while(line.find("#")==0)
                             line.erase(line.begin());
-                        int index_to_search = 55;
+                        int index_to_search = 70;
                         while( line.length() > 73 ){ //Change this number if you want to
                             if( index_to_search == 0 ){
                                 cerr << "No point to break line found." << endl;
                                 break;
                             }
                             int k = line.find( ",", index_to_search );
-                            if( k > 73 ){
-                                index_to_search -= 5;
+                            if( k > 73 && index_to_search >= 40 ){ // Also feel free to modify this. Maybe part of the file/input?
+                                index_to_search --;
                                 continue;
+                            }
+                            if( k > 73 || k == -1 ){
+                                k = 60;
                             }
                             newfile << line.substr(0,k+1) << endl;
                             newfile_main << line.substr(0,k+1) << endl;
                             line.erase(0,k);
+                            line.replace(0,1," ");
                             index_to_search = 55;
                         }
                         newfile << line << endl;
