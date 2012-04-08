@@ -1,1 +1,1 @@
-ReadTest("testex.g");
+ReadTest("example/testex.g");
