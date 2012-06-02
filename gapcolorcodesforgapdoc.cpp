@@ -88,18 +88,18 @@ int main(int argc, char* argv[] )
                     }
                     gappos=line.find("gap>");
                     if(gappos!=0){
-                      int index_to_search = 70;
-                      while( line.length() > 73 ){ //Change this number if you want to
+                      int index_to_search = 72;
+                      while( line.length() > 72 ){ //Change this number if you want to
                           if( index_to_search == 0 ){
                               cerr << "No point to break line found." << endl;
                               break;
                           }
                           int k = line.find( ",", index_to_search );
-                          if( k > 73 && index_to_search >= 40 ){ // Also feel free to modify this. Maybe part of the file/input?
+                          if( k > 72 && index_to_search >= 40 ){ // Also feel free to modify this. Maybe part of the file/input?
                               index_to_search --;
                               continue;
                           }
-                          if( k > 73 || k == -1 ){
+                          if( k > 72 || k == -1 ){
                               k = 60;
                           }
                           newfile << line.substr(0,k+1) << endl;

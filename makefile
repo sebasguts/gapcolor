@@ -9,6 +9,6 @@ gapcolorforgapdoc:  gapcolorcodesforgapdoc.cpp
 test:
 	gap testexamples.g
 
-tex:
-	./gapcolor testex.g
-	pdflatex testex.tex
+tex: gapcolor
+	./gapcolor example/testex.g
+	pdflatex example/testex.tex

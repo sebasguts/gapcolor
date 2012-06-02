@@ -69,7 +69,7 @@ int main(int argc, char* argv[] )
                         continue;
                     }
                     if( ignore ){
-                        if( line.find( "gap>" ) == 0 ){
+                        if( line.find( "gap>" ) == 0 || line.find( ">" ) == 0 ){
                             ignore = false;
                         }
                         else if( line.find( "#" ) != 0 ){
@@ -81,13 +81,13 @@ int main(int argc, char* argv[] )
                         ignore = true;
                         continue;
                     }
-                    // Remove flags
-                    if(line.find("------") == 0 ){ // THIS WILL CAUSE A BUG!!!
-                        do{
-                            getline(colorfile,line);
-                        }while( line.find( "------" ) !=0 );
-                        continue;
-                    }
+//                     // Remove flags
+//                     if(line.find("--------------") == 0 ){ // THIS WILL CAUSE A BUG!!!
+//                         do{
+//                             getline(colorfile,line);
+//                         }while( line.find( "--------------" ) !=0 );
+//                         continue;
+//                     }
                     // Remove this annoying singular banner with the ==== characters
                     if(line.find("=====") == 0 ){
                         do{
@@ -111,18 +111,18 @@ int main(int argc, char* argv[] )
                     if(gappos!=0){
                         while(line.find("#")==0)
                             line.erase(line.begin());
-                        int index_to_search = 70;
-                        while( line.length() > 73 ){ //Change this number if you want to
+                        int index_to_search = 72;
+                        while( line.length() > 72 ){ //Change this number if you want to
                             if( index_to_search == 0 ){
                                 cerr << "No point to break line found." << endl;
                                 break;
                             }
                             int k = line.find( ",", index_to_search );
-                            if( k > 73 && index_to_search >= 40 ){ // Also feel free to modify this. Maybe part of the file/input?
+                            if( k > 72 && index_to_search >= 40 ){ // Also feel free to modify this. Maybe part of the file/input?
                                 index_to_search --;
                                 continue;
                             }
-                            if( k > 73 || k == -1 ){
+                            if( k > 72 || k == -1 ){
                                 k = 60;
                             }
                             newfile << line.substr(0,k+1) << endl;
