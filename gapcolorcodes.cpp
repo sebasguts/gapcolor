@@ -16,6 +16,7 @@
 
 #include<stdio.h>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <string>
 using std::cin;
@@ -26,6 +27,8 @@ using std::endl;
 using std::ios;
 using std::cout;
 using std::cerr;
+using std::istringstream;
+
 
 /*
  * Kurzanleitung: Zeilen mit gap> am Anfang werden eingefärbt, andere nicht. Skript entfernt
@@ -35,7 +38,24 @@ using std::cerr;
 
 int main(int argc, char* argv[] )
 {
-     for( int i = 1; i < argc; i++ ){ 
+     cerr << "Specify number of letters to remove at end of filename with --nrofletters= . Default is 2" << endl;
+     if( argc == 1 ){
+         cerr << "No filename given" << endl;
+         return 0;
+     }
+     
+     int numberofcharstoremove=2;
+     int starter=1;
+     
+     
+     string firstarg(argv[1]);
+     if( firstarg.find( "--nrofletters=" ) == 0 ){
+          istringstream numb(firstarg.substr(14));
+          numb >> numberofcharstoremove;
+          starter++;
+     }
+     
+     for( int i = starter; i < argc; i++ ){ 
          ifstream colorfile;
          string name(argv[i]);
          string line;
@@ -45,8 +65,8 @@ int main(int argc, char* argv[] )
          bool ignore = false;
          colorfile.open(name.c_str(),ios::in);
          if( colorfile.is_open() ){
-             name.erase(name.length()-1);
-             name.erase(name.length()-1);
+             for( int abcd = 0; abcd < numberofcharstoremove ; abcd++ )
+                name.erase(name.length()-1);
              string name2( name );
              name.append(".tex");
              name2.append("_main.tex");
@@ -69,7 +89,7 @@ int main(int argc, char* argv[] )
                         continue;
                     }
                     if( ignore ){
-                        if( line.find( "gap>" ) == 0 || line.find( ">" ) == 0 ){
+                        if( line.find( "gap>" ) == 0 ){
                             ignore = false;
                         }
                         else if( line.find( "#" ) != 0 ){
@@ -109,6 +129,15 @@ int main(int argc, char* argv[] )
                     }
                     gappos=line.find("gap>");
                     if(gappos!=0){
+                        gappos=line.find(">");
+                        if(gappos==0){
+                            line.insert(1,"%!color@red%@");
+                            line.insert(0,"!color@blue%@");
+                            line += "%";
+                            newfile << line << endl;
+                            newfile_main << line << endl;
+                            continue;
+                        }
                         while(line.find("#")==0)
                             line.erase(line.begin());
                         int index_to_search = 72;
@@ -134,7 +163,7 @@ int main(int argc, char* argv[] )
                         newfile << line << endl;
                         newfile_main << line << endl;
                         continue;
-                    }
+                   }
                    line.insert(4,"%!color@red%@");
                    line.insert(0,"!color@blue%@");
                    line += "%";

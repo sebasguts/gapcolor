@@ -165,3 +165,4 @@ gap> List( D, IsAmple );
 [ false, false, false, false ]
 ## endgapcolor ##
 gap> STOP_TEST( "testex.g", 10000 );
+
