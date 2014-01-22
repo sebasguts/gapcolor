@@ -6,6 +6,9 @@ gapcolor: gapcolorcodes.cpp
 gapcolorforgapdoc:  gapcolorcodesforgapdoc.cpp
 	$(CXX) -o gapcolorforgapdoc gapcolorcodesforgapdoc.cpp
 
+AutoDocExampleColorCodes: AutoDocExampleColorCodes.cpp
+	$(CXX) -o autodoccolorcodes AutoDocExampleColorCodes.cpp
+
 test:
 	gap testexamples.g
 
