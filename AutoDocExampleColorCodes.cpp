@@ -140,7 +140,7 @@ int main(int argc, char* argv[] )
                           string temp_line = line.substr(0,k+1);
                           temp_line += "%";
                           newfile_main << temp_line << endl;
-                          line.erase(0,k);
+                          line.erase(0,k+1);
                           line.insert(0,"!color@blue%@>%!color@red%@ ");
                           index_to_search = 55;
                       }

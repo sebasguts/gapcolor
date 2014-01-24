@@ -1,6 +1,6 @@
 CXX = g++
 
-all: gapcolor gapcolorcodesforgapdoc AutoDocExampleColorCodes
+all: gapcolor gapcolorcodesforgapdoc autodoccolorcodes
 
 gapcolor: gapcolorcodes.cpp
 	$(CXX) -o gapcolor gapcolorcodes.cpp
@@ -8,7 +8,7 @@ gapcolor: gapcolorcodes.cpp
 gapcolorforgapdoc:  gapcolorcodesforgapdoc.cpp
 	$(CXX) -o gapcolorforgapdoc gapcolorcodesforgapdoc.cpp
 
-AutoDocExampleColorCodes: AutoDocExampleColorCodes.cpp
+autodoccolorcodes: AutoDocExampleColorCodes.cpp
 	$(CXX) -o autodoccolorcodes AutoDocExampleColorCodes.cpp
 
 test:
